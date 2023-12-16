@@ -1,6 +1,7 @@
 package oncall.model;
 
 import oncall.constant.Days;
+import oncall.constant.Holiday;
 import oncall.constant.Month;
 
 import java.util.ArrayList;
@@ -76,5 +77,25 @@ public class MonthMaker {
 
         }
         return date;
+    }
+
+    // 법정 공휴일일 경우 뒤에 (휴일) 붙여주기
+    public List<String>addHoliday(List<String> monthInfo) {
+        for (int i = 0; i < monthInfo.size(); i++) {
+            if(checkHoliday(monthInfo.get(i))) {
+                monthInfo.add(monthInfo.get(i) + "(휴일)");
+            }
+        }
+        return monthInfo;
+    }
+
+    // 휴일인지 확인
+    private boolean checkHoliday(String monthData) {
+        for(Holiday holiday : Holiday.values()) {
+            if (holiday.getHOLIDAYLIST().contains(monthData)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
