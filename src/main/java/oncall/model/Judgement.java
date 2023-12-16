@@ -1,0 +1,46 @@
+package oncall.model;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Judgement {
+    // 배정 월과 시작 요일 담아서 반환
+    public Map<Integer, String> checkMonthDate(String monthDate) {
+        String[] tempStr = arrayException(monthDate);
+        int startMonth = checkInt(tempStr[0]);
+        String startDay = tempStr[1];
+        Map<Integer, String> startInfo = new HashMap<>();
+        startInfo.put(startMonth, startDay);
+    }
+
+    // 배열 예외처리
+    private String[] arrayException(String monthDate) {
+        String[] tempStr;
+        try {
+            String tempLast = String.valueOf(monthDate.charAt(monthDate.length() - 1));
+            if(tempLast.equals(",")) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+            tempStr = monthDate.split(",");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("[ERROR] 배정할 월과 시작 요일을 '1,금' 형식과 같이 공백없이 쉼표로 구분하여 입력해주세요.");
+            throw new IllegalArgumentException(e);
+        }
+        return tempStr;
+    }
+
+    // 문자열 인트 변환
+    private int checkInt(String strNumber) {
+        int number = 0;
+        try {
+            if(strNumber.equals("")) {
+                throw new NumberFormatException();
+            }
+            number = Integer.parseInt(strNumber);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return number;
+    }
+}
