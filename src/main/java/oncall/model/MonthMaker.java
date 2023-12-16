@@ -28,6 +28,7 @@ public class MonthMaker {
         for (Month month : Month.values()) {
             if (month.getMONTHLIST().contains(startMonth)) {
                 dayCount = month.getDAYS_COUNT();
+                return dayCount;
             }
         }
         return dayCount;
@@ -44,7 +45,7 @@ public class MonthMaker {
     private int findIndex(String startDay) {
         int index = 0;
         for (Days days : Days.values()) {
-            if (startDay.equals(days.getDAYS_INDEX())) {
+            if (startDay.equals(days.getDAYS_NAME())) {
                 index = days.getDAYS_INDEX();
                 return index;
             }
@@ -55,35 +56,34 @@ public class MonthMaker {
     // 인덱스로 반복해서 날짜 넣기
     private List<String> repeatInsert(int startMonth, int dayCount, int index) {
         List<String> monthInfo = new ArrayList<>();
-        int date = 0;
-        while (date < dayCount) {
-            date = addInfo(monthInfo, index, startMonth);
+        int date = 1;
+        while (date <= dayCount) {
+            date = addInfo(date, dayCount, monthInfo, index, startMonth);
+            index++;
+            if (index >= 6) {
+                index = 0;
+            }
         }
         return monthInfo;
     }
 
     // 조건 판단하고 정보 넣어서 리턴하기
-    private int addInfo(List<String> monthInfo,int index, int startMonth) {
-        int date = 1;
+    private int addInfo(int date, int dayCount, List<String> monthInfo, int index, int startMonth) {
         for (Days days : Days.values()) {
-            if (index == days.getDAYS_INDEX()) {
+            if (index == days.getDAYS_INDEX() && date <= dayCount) {
                 monthInfo.add(startMonth + "월 " + date + "일 " + days.getDAYS_NAME());
                 date++;
             }
-            if (index >= 6) {
-                index = 0;
-            }
-            index++;
-
         }
+
         return date;
     }
 
     // 법정 공휴일일 경우 뒤에 (휴일) 붙여주기
-    public List<String>addHoliday(List<String> monthInfo) {
+    public List<String> addHoliday(List<String> monthInfo) {
         for (int i = 0; i < monthInfo.size(); i++) {
-            if(checkHoliday(monthInfo.get(i))) {
-                monthInfo.add(monthInfo.get(i) + "(휴일)");
+            if (checkHoliday(monthInfo.get(i))) {
+                monthInfo.set(i, monthInfo.get(i) + "(휴일)");
             }
         }
         return monthInfo;
@@ -91,8 +91,8 @@ public class MonthMaker {
 
     // 휴일인지 확인
     private boolean checkHoliday(String monthData) {
-        for(Holiday holiday : Holiday.values()) {
-            if (holiday.getHOLIDAYLIST().contains(monthData)) {
+        for (Holiday holiday : Holiday.values()) {
+            if (holiday.getHOLIDAYLIST().contains(monthData.substring(0,monthData.length()-2))) {
                 return true;
             }
         }

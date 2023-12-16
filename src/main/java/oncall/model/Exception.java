@@ -5,6 +5,10 @@ import java.util.*;
 public class Exception {
     // 배정 월과 시작 요일 담아서 반환
     public Map<Integer, String> checkMonthDay(String monthDay) {
+        if(monthDay.length() < 2 || !monthDay.contains(",")) {
+            System.out.println("[ERROR] 배정할 월과 시작 요일을 '1,금' 형식과 같이 공백없이 쉼표로 구분하여 입력해주세요.");
+            throw new IllegalArgumentException();
+        }
         String[] tempStr = monthArrayException(monthDay);
         if(tempStr.length > 2) {
             System.out.println("[ERROR] 배정할 월과 시작 요일을 '1,금' 형식과 같이 공백없이 쉼표로 구분하여 입력해주세요.");
@@ -42,7 +46,11 @@ public class Exception {
                 throw new NumberFormatException();
             }
             number = Integer.parseInt(strNumber);
+            if(number < 1 || number > 12) {
+                throw new IllegalArgumentException();
+            }
         } catch (NumberFormatException e) {
+            System.out.println("[ERROR] 배정할 월과 시작 요일을 '1,금' 형식과 같이 공백없이 쉼표로 구분하여 입력해주세요.");
             throw new IllegalArgumentException(e);
         }
         return number;

@@ -19,10 +19,11 @@ public class MainController {
     Worker worker = new Worker();
     Schedule schedule = new Schedule();
 
-
-    // 시작
+    // 비상근무표 자동화 시작
     public void start() {
-
+        List<String> monthInfo = fixMonth();
+        Map<String, List<String>> workerList = fixWorkerList();
+        fixSchedule(monthInfo, workerList);
     }
 
     // 월과 요일 입력하고 달력 반환하기
@@ -33,7 +34,6 @@ public class MainController {
             Map<Integer, String> startInfo = exception.checkMonthDay(monthDay);
             monthInfo = monthMaker.returnMonth(startInfo);
             monthInfo = monthMaker.addHoliday(monthInfo);
-            return monthInfo;
         } catch (IllegalArgumentException e) {
             System.out.println("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
             fixMonth();
@@ -78,7 +78,11 @@ public class MainController {
     private void fixSchedule(List<String> monthInfo, Map<String, List<String>> workerList) {
         List<String> weekdayWorker = workerList.get("평일");
         List<String> weekendWorker = workerList.get("휴일");
-        monthInfo= schedule.makeSchedule(monthInfo, weekdayWorker, weekendWorker);
+        monthInfo = schedule.makeSchedule(monthInfo, weekdayWorker, weekendWorker);
+        String lastWord = monthInfo.get(monthInfo.size()-1);
+        do {
+            monthInfo = schedule.makeSchedule(monthInfo, weekdayWorker, weekendWorker);
+        } while ((monthInfo.get(monthInfo.size()-1)).equals(lastWord));
         outputVIew.printSchedule(monthInfo);
     }
 }
