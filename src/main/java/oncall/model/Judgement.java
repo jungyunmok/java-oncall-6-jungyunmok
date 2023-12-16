@@ -6,23 +6,28 @@ import java.util.Map;
 
 public class Judgement {
     // 배정 월과 시작 요일 담아서 반환
-    public Map<Integer, String> checkMonthDate(String monthDate) {
-        String[] tempStr = arrayException(monthDate);
+    public Map<Integer, String> checkMonthDay(String monthDay) {
+        String[] tempStr = arrayException(monthDay);
+        if(tempStr.length > 2) {
+            System.out.println("[ERROR] 배정할 월과 시작 요일을 '1,금' 형식과 같이 공백없이 쉼표로 구분하여 입력해주세요.");
+            throw new IllegalArgumentException();
+        }
         int startMonth = checkInt(tempStr[0]);
         String startDay = tempStr[1];
         Map<Integer, String> startInfo = new HashMap<>();
         startInfo.put(startMonth, startDay);
+        return startInfo;
     }
 
     // 배열 예외처리
-    private String[] arrayException(String monthDate) {
+    private String[] arrayException(String monthDay) {
         String[] tempStr;
         try {
-            String tempLast = String.valueOf(monthDate.charAt(monthDate.length() - 1));
+            String tempLast = String.valueOf(monthDay.charAt(monthDay.length() - 1));
             if(tempLast.equals(",")) {
                 throw new ArrayIndexOutOfBoundsException();
             }
-            tempStr = monthDate.split(",");
+            tempStr = monthDay.split(",");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("[ERROR] 배정할 월과 시작 요일을 '1,금' 형식과 같이 공백없이 쉼표로 구분하여 입력해주세요.");
             throw new IllegalArgumentException(e);
