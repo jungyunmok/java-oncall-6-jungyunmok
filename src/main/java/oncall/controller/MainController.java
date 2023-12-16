@@ -65,10 +65,20 @@ public class MainController {
         if (whichDay.equals("평일")) {
             String weekday = inputVIew.readWeekday();
             tempList = worker.checkWorker(weekday);
+            worker.validateWorker(tempList);
             return tempList;
         }
         String weekend = inputVIew.readWeekend();
         tempList = worker.checkWorker(weekend);
+        worker.validateWorker(tempList);
         return tempList;
+    }
+
+    // 근무 스케줄 짜고 출력하기
+    private void fixSchedule(List<String> monthInfo, Map<String, List<String>> workerList) {
+        List<String> weekdayWorker = workerList.get("평일");
+        List<String> weekendWorker = workerList.get("휴일");
+        monthInfo= schedule.makeSchedule(monthInfo, weekdayWorker, weekendWorker);
+        outputVIew.printSchedule(monthInfo);
     }
 }

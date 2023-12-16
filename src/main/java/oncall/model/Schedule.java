@@ -3,16 +3,6 @@ package oncall.model;
 import java.util.List;
 
 public class Schedule {
-    // 연속으로 근무하는 사원이 있을 경우 예외처리
-    public void validateWorker(List<String> workerList) {
-        for (int i = 0; i < workerList.size() - 1; i++) {
-            if (workerList.get(i).equals(workerList.get(i + 1))) {
-                System.out.println("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
     // 근무자 평일, 휴일 비상 근무자 편성하기
     public List<String> makeSchedule(List<String> monthInfo, List<String> weekdayWorker, List<String> weekendWorker) {
         int weekendIndex = 0;

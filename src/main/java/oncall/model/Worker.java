@@ -57,4 +57,13 @@ public class Worker {
             }
         }
     }
+
+    // 연속으로 근무하는 사원이 있을 경우 예외처리
+    public void validateWorker(List<String> workerList) {
+        for (int i = 0; i < workerList.size() - 1; i++) {
+            if (workerList.get(i).equals(workerList.get(i + 1))) {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
 }
