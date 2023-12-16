@@ -36,7 +36,7 @@ public class Schedule {
             beforeToday = monthInfo.get(index - 1);
         }
         String todayWorker = workerList.get(workerndex);
-        if (beforeToday.equals(todayWorker) {
+        if (beforeToday.equals(todayWorker)) {
             String nextWorker = workerList.get(workerndex + 1);
             workerList.set(workerndex, nextWorker);
             workerList.set(workerndex, todayWorker);
