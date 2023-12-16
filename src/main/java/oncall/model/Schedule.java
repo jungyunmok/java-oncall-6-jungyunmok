@@ -4,16 +4,15 @@ import java.util.List;
 
 public class Schedule {
     // 근무자 평일, 휴일 비상 근무자 편성하기
-    public List<String> makeSchedule(List<String> monthInfoTemp, List<String> weekdayWorker, List<String> weekendWorker) {
+    public List<String> makeSchedule(List<String> monthInfo, List<String> weekdayWorker, List<String> weekendWorker) {
         int weekendIndex = 0;
         int weekdayIndex = 0;
-        List<String> monthInfo = monthInfoTemp;
         for (int i = 0; i < monthInfo.size(); i++) {
-            if (weekendIndex < weekendWorker.size() && (monthInfo.get(i).contains("토") || monthInfo.get(i).contains("일") || monthInfo.get(i).contains("휴일"))) {
+            if (weekendIndex < weekendWorker.size() && (monthInfo.get(i).contains("토") || monthInfo.get(i).contains(" 일") || monthInfo.get(i).contains("휴일"))) {
                 monthInfo = changeScheduleWeekend(i, monthInfo, weekdayWorker, weekendWorker, weekdayIndex, weekendIndex);
                 weekendIndex++;
 
-            } else if(weekdayIndex < weekdayWorker.size() && (!monthInfo.get(i).contains("토") && !monthInfo.get(i).contains("일") && !monthInfo.get(i).contains("휴일"))) {
+            } else if(weekdayIndex < weekdayWorker.size()) {
             monthInfo = changeScheduleWeekday(i, monthInfo, weekdayWorker, weekendWorker, weekdayIndex, weekdayIndex);
             weekdayIndex++;
             }
@@ -41,7 +40,7 @@ public class Schedule {
     private List<String> changeScheduleWeekend(int index, List<String> monthInfo, List<String> weekdayWorker, List<String> weekendWorker, int weekdayIndex, int weekendIndex) {
         if (index > 0 && monthInfo.get(index - 1).contains(weekdayWorker.get(weekdayIndex))) {
             String beforeToday = weekdayWorker.get(weekdayIndex);
-            if(weekdayIndex > 0) beforeToday = weekdayWorker.get(weekdayIndex - 1);
+            if(weekdayIndex > 1) beforeToday = weekdayWorker.get(weekdayIndex - 1);
             String todayWorker = weekendWorker.get(weekendIndex);
             if (beforeToday.equals(todayWorker)) {
                 String nextWorker = weekendWorker.get(weekendIndex + 1);

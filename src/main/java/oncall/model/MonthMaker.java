@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MonthMaker {
+    private List<String> monthInfo = new ArrayList<>();
+
+    public List<String> getMonthInfo() {
+        return monthInfo;
+    }
+
     // 받은 월과 시작요일로 달력 만들기
     public List<String> returnMonth(Map<Integer, String> startInfo) {
         int startMonth = 0;
@@ -60,7 +66,7 @@ public class MonthMaker {
         while (date <= dayCount) {
             date = addInfo(date, dayCount, monthInfo, index, startMonth);
             index++;
-            if (index >= 6) {
+            if (index > 6) {
                 index = 0;
             }
         }
@@ -86,6 +92,7 @@ public class MonthMaker {
                 monthInfo.set(i, monthInfo.get(i) + "(휴일)");
             }
         }
+        this.monthInfo = monthInfo;
         return monthInfo;
     }
 

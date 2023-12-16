@@ -7,6 +7,7 @@ import oncall.model.Worker;
 import oncall.view.InputVIew;
 import oncall.view.OutputVIew;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,17 +24,17 @@ public class MainController {
     public void start() {
         List<String> monthInfo = fixMonth();
         Map<String, List<String>> workerList = fixWorkerList();
-        fixSchedule(monthInfo, workerList);
+        fixSchedule(monthMaker.getMonthInfo(), workerList);
     }
 
     // 월과 요일 입력하고 달력 반환하기
     private List<String> fixMonth() {
-        List<String> monthInfo = null;
+        List<String> monthInfo = new ArrayList<>();
         try {
             String monthDay = inputVIew.readMonthDay();
             Map<Integer, String> startInfo = exception.checkMonthDay(monthDay);
             monthInfo = monthMaker.returnMonth(startInfo);
-            monthInfo = monthMaker.addHoliday(monthInfo);
+            return monthMaker.addHoliday(monthInfo);
         } catch (IllegalArgumentException e) {
             System.out.println("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
             fixMonth();
@@ -78,7 +79,6 @@ public class MainController {
     private void fixSchedule(List<String> monthInfo, Map<String, List<String>> workerList) {
         List<String> weekdayWorker = workerList.get("평일");
         List<String> weekendWorker = workerList.get("휴일");
-        monthInfo = schedule.makeSchedule(monthInfo, weekdayWorker, weekendWorker);
         String lastWord = monthInfo.get(monthInfo.size()-1);
         do {
             monthInfo = schedule.makeSchedule(monthInfo, weekdayWorker, weekendWorker);
