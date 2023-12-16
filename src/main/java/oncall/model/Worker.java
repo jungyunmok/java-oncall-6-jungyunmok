@@ -49,7 +49,7 @@ public class Worker {
     }
 
     // 평일과 휴일에 각각 1번씩 편성되었는지 확인
-    public void checkWorkers(List<String> weekdayList, List<String> weekendList) {
+    public void checkSameWorker(List<String> weekdayList, List<String> weekendList) {
         for(String name : weekdayList) {
             if(!weekendList.contains(name)) {
                 System.out.println("[ERROR] 비상 근무자는 평일 순번, 휴일 순번에 각각 1회 편성되야 합니다.");
